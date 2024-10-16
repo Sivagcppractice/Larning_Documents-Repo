@@ -1,0 +1,340 @@
+Shell Script : Sequence of Commands in text file 
+               save the file in .sh extension 
+
+
+
+Shell Scripting Tasks
+
+1. Performance optimizing -- Free disk space-- unused file like
+2. logs checking -- Log Management 
+3. Backup and disaster recovery
+4. Security Compliance
+5. Automating deployments
+6. CI-CD pipeline
+7. Monitoring and alerting
+8. Troubleshooting
+9. Infrastructure 
+
+Shell scripting syntax :          Shell Scripting Standards :
+
+{# -- sharp                         1.Naming conventions -- File name end with .sh and file  name relevant to task name .sh
+! --bang }  --
+
+#!-- Shabang or shebang 
+
+#! /bin/bash
+# Author: Siva
+#date: 15 oct
+pwd
+date
+cal 2023
+touch s1,s2,s3,s4
+echo "shell script practice/ sample shell script"
+
+ Variables in shell script 
+--------------------------:::::::::::::::::::::::::::::::::::
+
+In shell script different type of variables 
+1.Pre defined variables -- means variables comes from the software (fixed), system variables, environment variables
+2.User defined variables -- means variables comes from the user requirement(we are creating) 
+
+
+PREDEFINED VARIABLES:::::::::::::::::::::::::::::::::::::::::
+
+Shelladmin@Shell-VM01:~$ cat var1.sh
+#! /bin/bash/
+echo "$0"
+echo "$1"
+echo "$4"
+echo "$$"
+echo "$?"
+echo "$@"
+echo "$#"
+
+Shelladmin@Shell-VM01:~$ sh var1.sh 20 30 40 60 70 90
+var1.sh            - $0 name of the shell
+20                 - $1 is 20
+30                 - $2 is 60
+11787              - $$ is processing id
+0                  - $0 is which processor 
+20 30 40 60 70 90  - $@ is total elements
+6                  - $# How many elements we are passing 
+
+
+USER DEFINED VARIABLES ::::::::::::::::::::::::::::::::::::::
+
+Shelladmin@Shell-VM01:~$ aaa=1000
+Shelladmin@Shell-VM01:~$ $aaa
+1000: command not found
+Shelladmin@Shell-VM01:~$ qqq=$(aaa)
+Command 'aaa' not found, did you mean:
+  command 'aha' from deb aha (0.5.1-2)
+  command 'jaaa' from deb jaaa (0.9.2-1)
+  command 'ara' from deb python3-ara (1.5.7-1)
+  command 'aa' from deb astronomical-almanac (5.6-7)
+Try: sudo apt install <deb name>
+Shelladmin@Shell-VM01:~$ qqq=$aaa
+Shelladmin@Shell-VM01:~$ $qqq
+1000: command not found
+
+
+SHELL COMMAND LINE ARGUMENTS::::::::::::::::::::::::::::::::
+
+There IS NO LIMITED FOR PASSING COMMAND LINE ARGUMENTS
+
+
+"ECHO AND READ COMMANDS"IN SHELL SCRIPT::::::::::::::::::::::::
+
+ECHO --- display or print the value -- Its will accepts command line arguments like $0,$$,$?, it display the variable values, strings,commands
+Escape characters like /n /t /b -e 
+READ --- Reads the value in dynamically
+
+Shelladmin@Shell-VM01:~$ echo -e "welcome siva"
+welcome siva
+Shelladmin@Shell-VM01:~$ echo -e "welcome \siva"
+welcome \siva
+Shelladmin@Shell-VM01:~$ a=20
+Shelladmin@Shell-VM01:~$ name=siva
+Shelladmin@Shell-VM01:~$ echo $a and $name
+20 and siva
+Shelladmin@Shell-VM01:~$  echo $)pwd)
+-bash: syntax error near unexpected token `)'
+Shelladmin@Shell-VM01:~$ echo $(pwd)
+/home/Shelladmin
+
+Shelladmin@Shell-VM01:~$ vi multiline.sh
+Shelladmin@Shell-VM01:~$ sh multiline.sh
+line1
+line2
+line3
+
+Multiple line to single line :::::::::::::::::::
+
+Shelladmin@Shell-VM01:~$ cat multiline.sh
+#! /bin/bash/
+
+echo -n "line1"
+echo -n "line2"
+echo "line3"
+Shelladmin@Shell-VM01:~$ sh multiline.sh
+line1line2line3
+
+SINGLE LINE TO MULTIPLE LINE :::::::::::::::::::
+
+Shelladmin@Shell-VM01:~$ vi multiline.sh
+Shelladmin@Shell-VM01:~$ cat multiline.sh
+#! /bin/bash/
+
+echo  "line1 line2 line3"
+
+Shelladmin@Shell-VM01:~$ sh multiline.sh
+line1 line2 line3
+
+Shelladmin@Shell-VM01:~$ cat multiline.sh
+#! /bin/bash/
+
+echo -e "line1\n line2\n line3"
+Shelladmin@Shell-VM01:~$ sh multiline.sh
+-e line1
+ line2
+ line3
+
+Multiple TAB SPACES :::::::::::::::::::::::::::
+
+Shelladmin@Shell-VM01:~$ cat multiline.sh
+#! /bin/bash/
+
+echo -e "line1\n\t\t\t\t\t\t\t\ line2\n line3"
+Shelladmin@Shell-VM01:~$ sh multiline.sh
+-e line1
+                                                        \ line2
+ line3
+
+DOUBLE QUOTES :::::::::::::::::::::::::::::::::::
+
+Shelladmin@Shell-VM01:~$ echo "siva"
+siva
+Shelladmin@Shell-VM01:~$ echo -e \"siva\"
+"siva"
+
+FOR CONVERT TO UPPER CASE ::::::::::::::::::::::::
+
+Shelladmin@Shell-VM01:~$ name=siva
+Shelladmin@Shell-VM01:~$ echo $name
+siva
+Shelladmin@Shell-VM01:~$ echo "${name^^}"
+SIVA
+
+
+USER INPUT | INPUT COMMAND FOR SHELL "READ" COMMAND ::::::::::::::
+
+Shelladmin@Shell-VM01:~$ cat readwithprompt.sh
+#! /bin/bash/
+echo "enter your course name"
+read course
+echo "present $course is very popular in IT industry"
+read -p 'username:' USER
+read -p 'password:' pass
+echo "Login successful: welcome $USER"
+Shelladmin@Shell-VM01:~$
+Shelladmin@Shell-VM01:~$ sh readwithprompt.sh
+Shelladmin@Shell-VM01:~$ sh readwithprompt.sh
+enter your course name
+DevOps
+present DevOps is very popular in IT industry
+username: Siva
+password: Siva
+Login successful: welcome Siva
+
+BUT IN THIS PASSWORD IS VISIBLE WE NEED TO CHANGE THEN PASSWORD VISIBILITY
+#! /bin/bash/
+echo "enter your course name"
+read course
+echo "present $course is very popular in IT industry"
+read -p 'username:' USER
+read -s -p 'password:' pass            "ubuntu m/c -s is not permitted"
+echo "Login successful: welcome $USER"
+
+
+========================================================================================================================
+
+
+OPERATORS IN SHELL SCRIPT
+
+SHELL CAN SUPPORT DIFFERNT TYPE OF OPERAROR LIKE
+ARTHAMATIC OPERATORS: + - * / % ** using 4ways most imp way is * (()) double paramer used for integers, * $(()).
+Shelladmin@Shell-VM01:~$ a=56
+Shelladmin@Shell-VM01:~$ b=76
+Shelladmin@Shell-VM01:~$ a+b
+Command 'a+b' not found, did you mean:
+  command 'arb' from deb arb (6.0.6-5)
+  command 'a+' from deb aplus-fsf (4.22.1-10.1ubuntu2)
+  command 'ab' from deb apache2-utils (2.4.52-1ubuntu4.12)
+  command 'adb' from deb adb (1:10.0.0+r36-9)
+Try: sudo apt install <deb name>
+Shelladmin@Shell-VM01:~$ sum=a+b
+Shelladmin@Shell-VM01:~$ $?
+0: command not found
+Shelladmin@Shell-VM01:~$ $sum
+Command 'a+b' not found, did you mean:
+  command 'arb' from deb arb (6.0.6-5)
+  command 'a+' from deb aplus-fsf (4.22.1-10.1ubuntu2)
+  command 'adb' from deb adb (1:10.0.0+r36-9)
+  command 'ab' from deb apache2-utils (2.4.52-1ubuntu4.12)
+Try: sudo apt install <deb name>
+Shelladmin@Shell-VM01:~$ $((sum=a+b))
+132: command not found
+Shelladmin@Shell-VM01:~$ $?
+127: command not found
+
+RELATIONAL OPERATORS: ge, le, <, > 
+STRING OPERATORS : = /==/ [[ ]]/ != 
+
+           -Z = ZERO LENGTH
+           -N = NUMBER OF LENGTH
+
+FILE TEXT OPERATOR : 
+
+USING bc command::::::::
+
+Shelladmin@Shell-VM01:~$ vi bcsample.sh
+Shelladmin@Shell-VM01:~$ cat bcsample.sh
+#!/bin/bash
+
+# READ TWO NUMBERS FROM USER
+echo -n "Enter first number: "
+read num1
+echo -n "Enter second number: "
+read num2
+
+# PERFORM ARITHMETIC OPERATIONS USING bc
+
+addition=$(echo "$num1 + $num2" | bc)
+subtraction=$(echo "$num1 - $num2" | bc)
+multiplication=$(echo "$num1 * $num2" | bc)
+division=$(echo "scale=2; $num1 / $num2" | bc)
+modulus=$(echo "$num1 % $num2" | bc)
+exponentiation=$(echo "$num1 ^ $num2" | bc)
+
+# DISPLAY RESULTS
+
+echo "Addition: $addition"
+echo "Subtraction: $subtraction"
+echo "Multiplication: $multiplication"
+echo "Division: $division"
+echo "Modulus: $modulus"
+echo "Exponentiation: $exponentiation"
+
+Shelladmin@Shell-VM01:~$ sh bcsample.sh
+Enter first number: 87
+Enter second number: 95
+Addition: 182
+Subtraction: -8
+Multiplication: 8265
+Division: .91
+Modulus: 87
+Exponentiation: 17960937382024098031505188467617695891009755460474379750432919742478\
+84270612327900365108503911424136357651979450605031485774438625311469\
+2086547465131031495176814152161612339362256138343
+
+Shelladmin@Shell-VM01:~$ 10 -eq 10
+10: command not found
+Shelladmin@Shell-VM01:~$ test 10 -eq 10
+Shelladmin@Shell-VM01:~$ $?
+0: command not found
+Shelladmin@Shell-VM01:~$ test 10 -eq 100
+Shelladmin@Shell-VM01:~$ $?
+1: command not found
+Shelladmin@Shell-VM01:~$ test 10 -ne 100
+Shelladmin@Shell-VM01:~$ $?
+0: command not found
+Shelladmin@Shell-VM01:~$ [ 10 -ne 100]
+-bash: [: missing `]'
+Shelladmin@Shell-VM01:~$ [ 10 -ne 100 ]
+Shelladmin@Shell-VM01:~$ $?
+0: command not found
+Shelladmin@Shell-VM01:~$ [[ 10 -ne -100]]
+>
+Shelladmin@Shell-VM01:~$ [[ 10 -ne 100 ]]
+Shelladmin@Shell-VM01:~$ $?
+0: command not found
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
