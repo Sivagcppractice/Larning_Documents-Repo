@@ -299,6 +299,657 @@ Shelladmin@Shell-VM01:~$ [[ 10 -ne 100 ]]
 Shelladmin@Shell-VM01:~$ $?
 0: command not found
 
+Shell Script : Sequence of Commands in text file 
+               save the file in .sh extension 
+
+
+
+Shell Scripting Tasks
+
+1. Performance optimizing -- Free disk space-- unused file like
+2. logs checking -- Log Management 
+3. Backup and disaster recovery
+4. Security Compliance
+5. Automating deployments
+6. CI-CD pipeline
+7. Monitoring and alerting
+8. Troubleshooting
+9. Infrastructure 
+
+Shell scripting syntax :          Shell Scripting Standards :
+
+{# -- sharp                         1.Naming conventions -- File name end with .sh and file  name relevant to task name .sh
+! --bang }  --
+
+#!-- Shabang or shebang 
+
+#! /bin/bash
+# Author: Siva
+#date: 15 oct
+pwd
+date
+cal 2023
+touch s1,s2,s3,s4
+echo "shell script practice/ sample shell script"
+
+ Variables in shell script 
+--------------------------:::::::::::::::::::::::::::::::::::
+
+In shell script different type of variables 
+1.Pre defined variables -- means variables comes from the software (fixed), system variables, environment variables
+2.User defined variables -- means variables comes from the user requirement(we are creating) 
+
+
+PREDEFINED VARIABLES:::::::::::::::::::::::::::::::::::::::::
+
+Shelladmin@Shell-VM01:~$ cat var1.sh
+#! /bin/bash/
+echo "$0"
+echo "$1"
+echo "$4"
+echo "$$"
+echo "$?"
+echo "$@"
+echo "$#"
+
+Shelladmin@Shell-VM01:~$ sh var1.sh 20 30 40 60 70 90
+var1.sh            - $0 name of the shell
+20                 - $1 is 20
+30                 - $2 is 60
+11787              - $$ is processing id
+0                  - $0 is which processor 
+20 30 40 60 70 90  - $@ is total elements
+6                  - $# How many elements we are passing 
+
+
+USER DEFINED VARIABLES ::::::::::::::::::::::::::::::::::::::
+
+Shelladmin@Shell-VM01:~$ aaa=1000
+Shelladmin@Shell-VM01:~$ $aaa
+1000: command not found
+Shelladmin@Shell-VM01:~$ qqq=$(aaa)
+Command 'aaa' not found, did you mean:
+  command 'aha' from deb aha (0.5.1-2)
+  command 'jaaa' from deb jaaa (0.9.2-1)
+  command 'ara' from deb python3-ara (1.5.7-1)
+  command 'aa' from deb astronomical-almanac (5.6-7)
+Try: sudo apt install <deb name>
+Shelladmin@Shell-VM01:~$ qqq=$aaa
+Shelladmin@Shell-VM01:~$ $qqq
+1000: command not found
+
+
+SHELL COMMAND LINE ARGUMENTS::::::::::::::::::::::::::::::::
+
+There IS NO LIMITED FOR PASSING COMMAND LINE ARGUMENTS
+
+
+"ECHO AND READ COMMANDS"IN SHELL SCRIPT::::::::::::::::::::::::
+
+ECHO --- display or print the value -- Its will accepts command line arguments like $0,$$,$?, it display the variable values, strings,commands
+Escape characters like /n /t /b -e 
+READ --- Reads the value in dynamically
+
+Shelladmin@Shell-VM01:~$ echo -e "welcome siva"
+welcome siva
+Shelladmin@Shell-VM01:~$ echo -e "welcome \siva"
+welcome \siva
+Shelladmin@Shell-VM01:~$ a=20
+Shelladmin@Shell-VM01:~$ name=siva
+Shelladmin@Shell-VM01:~$ echo $a and $name
+20 and siva
+Shelladmin@Shell-VM01:~$  echo $)pwd)
+-bash: syntax error near unexpected token `)'
+Shelladmin@Shell-VM01:~$ echo $(pwd)
+/home/Shelladmin
+
+Shelladmin@Shell-VM01:~$ vi multiline.sh
+Shelladmin@Shell-VM01:~$ sh multiline.sh
+line1
+line2
+line3
+
+Multiple line to single line :::::::::::::::::::
+
+Shelladmin@Shell-VM01:~$ cat multiline.sh
+#! /bin/bash/
+
+echo -n "line1"
+echo -n "line2"
+echo "line3"
+Shelladmin@Shell-VM01:~$ sh multiline.sh
+line1line2line3
+
+SINGLE LINE TO MULTIPLE LINE :::::::::::::::::::
+
+Shelladmin@Shell-VM01:~$ vi multiline.sh
+Shelladmin@Shell-VM01:~$ cat multiline.sh
+#! /bin/bash/
+
+echo  "line1 line2 line3"
+
+Shelladmin@Shell-VM01:~$ sh multiline.sh
+line1 line2 line3
+
+Shelladmin@Shell-VM01:~$ cat multiline.sh
+#! /bin/bash/
+
+echo -e "line1\n line2\n line3"
+Shelladmin@Shell-VM01:~$ sh multiline.sh
+-e line1
+ line2
+ line3
+
+Multiple TAB SPACES :::::::::::::::::::::::::::
+
+Shelladmin@Shell-VM01:~$ cat multiline.sh
+#! /bin/bash/
+
+echo -e "line1\n\t\t\t\t\t\t\t\ line2\n line3"
+Shelladmin@Shell-VM01:~$ sh multiline.sh
+-e line1
+                                                        \ line2
+ line3
+
+DOUBLE QUOTES :::::::::::::::::::::::::::::::::::
+
+Shelladmin@Shell-VM01:~$ echo "siva"
+siva
+Shelladmin@Shell-VM01:~$ echo -e \"siva\"
+"siva"
+
+FOR CONVERT TO UPPER CASE ::::::::::::::::::::::::
+
+Shelladmin@Shell-VM01:~$ name=siva
+Shelladmin@Shell-VM01:~$ echo $name
+siva
+Shelladmin@Shell-VM01:~$ echo "${name^^}"
+SIVA
+
+
+USER INPUT | INPUT COMMAND FOR SHELL "READ" COMMAND ::::::::::::::
+
+Shelladmin@Shell-VM01:~$ cat readwithprompt.sh
+#! /bin/bash/
+echo "enter your course name"
+read course
+echo "present $course is very popular in IT industry"
+read -p 'username:' USER
+read -p 'password:' pass
+echo "Login successful: welcome $USER"
+Shelladmin@Shell-VM01:~$
+Shelladmin@Shell-VM01:~$ sh readwithprompt.sh
+Shelladmin@Shell-VM01:~$ sh readwithprompt.sh
+enter your course name
+DevOps
+present DevOps is very popular in IT industry
+username: Siva
+password: Siva
+Login successful: welcome Siva
+
+BUT IN THIS PASSWORD IS VISIBLE WE NEED TO CHANGE THEN PASSWORD VISIBILITY
+#! /bin/bash/
+echo "enter your course name"
+read course
+echo "present $course is very popular in IT industry"
+read -p 'username:' USER
+read -s -p 'password:' pass            "ubuntu m/c -s is not permitted"
+echo "Login successful: welcome $USER"
+
+
+========================================================================================================================
+
+
+OPERATORS IN SHELL SCRIPT
+
+SHELL CAN SUPPORT DIFFERNT TYPE OF OPERAROR LIKE
+ARTHAMATIC OPERATORS: + - * / % ** using 4ways most imp way is * (()) double paramer used for integers, * $(()).
+Shelladmin@Shell-VM01:~$ a=56
+Shelladmin@Shell-VM01:~$ b=76
+Shelladmin@Shell-VM01:~$ a+b
+Command 'a+b' not found, did you mean:
+  command 'arb' from deb arb (6.0.6-5)
+  command 'a+' from deb aplus-fsf (4.22.1-10.1ubuntu2)
+  command 'ab' from deb apache2-utils (2.4.52-1ubuntu4.12)
+  command 'adb' from deb adb (1:10.0.0+r36-9)
+Try: sudo apt install <deb name>
+Shelladmin@Shell-VM01:~$ sum=a+b
+Shelladmin@Shell-VM01:~$ $?
+0: command not found
+Shelladmin@Shell-VM01:~$ $sum
+Command 'a+b' not found, did you mean:
+  command 'arb' from deb arb (6.0.6-5)
+  command 'a+' from deb aplus-fsf (4.22.1-10.1ubuntu2)
+  command 'adb' from deb adb (1:10.0.0+r36-9)
+  command 'ab' from deb apache2-utils (2.4.52-1ubuntu4.12)
+Try: sudo apt install <deb name>
+Shelladmin@Shell-VM01:~$ $((sum=a+b))
+132: command not found
+Shelladmin@Shell-VM01:~$ $?
+127: command not found
+
+RELATIONAL OPERATORS: ge, le, <, > 
+STRING OPERATORS : = /==/ [[ ]]/ != 
+
+           -Z = ZERO LENGTH
+           -N = NUMBER OF LENGTH
+
+FILE TEXT OPERATOR : 
+
+USING bc command::::::::
+
+Shelladmin@Shell-VM01:~$ vi bcsample.sh
+Shelladmin@Shell-VM01:~$ cat bcsample.sh
+#!/bin/bash
+
+# READ TWO NUMBERS FROM USER
+echo -n "Enter first number: "
+read num1
+echo -n "Enter second number: "
+read num2
+
+# PERFORM ARITHMETIC OPERATIONS USING bc
+
+addition=$(echo "$num1 + $num2" | bc)
+subtraction=$(echo "$num1 - $num2" | bc)
+multiplication=$(echo "$num1 * $num2" | bc)
+division=$(echo "scale=2; $num1 / $num2" | bc)
+modulus=$(echo "$num1 % $num2" | bc)
+exponentiation=$(echo "$num1 ^ $num2" | bc)
+
+# DISPLAY RESULTS
+
+echo "Addition: $addition"
+echo "Subtraction: $subtraction"
+echo "Multiplication: $multiplication"
+echo "Division: $division"
+echo "Modulus: $modulus"
+echo "Exponentiation: $exponentiation"
+
+Shelladmin@Shell-VM01:~$ sh bcsample.sh
+Enter first number: 87
+Enter second number: 95
+Addition: 182
+Subtraction: -8
+Multiplication: 8265
+Division: .91
+Modulus: 87
+Exponentiation: 17960937382024098031505188467617695891009755460474379750432919742478\
+84270612327900365108503911424136357651979450605031485774438625311469\
+2086547465131031495176814152161612339362256138343
+
+Shelladmin@Shell-VM01:~$ 10 -eq 10
+10: command not found
+Shelladmin@Shell-VM01:~$ test 10 -eq 10
+Shelladmin@Shell-VM01:~$ $?
+0: command not found
+Shelladmin@Shell-VM01:~$ test 10 -eq 100
+Shelladmin@Shell-VM01:~$ $?
+1: command not found
+Shelladmin@Shell-VM01:~$ test 10 -ne 100
+Shelladmin@Shell-VM01:~$ $?
+0: command not found
+Shelladmin@Shell-VM01:~$ [ 10 -ne 100]
+-bash: [: missing `]'
+Shelladmin@Shell-VM01:~$ [ 10 -ne 100 ]
+Shelladmin@Shell-VM01:~$ $?
+0: command not found
+Shelladmin@Shell-VM01:~$ [[ 10 -ne -100]]
+>
+Shelladmin@Shell-VM01:~$ [[ 10 -ne 100 ]]
+Shelladmin@Shell-VM01:~$ $?
+0: command not found
+
+
+STRING OPERATORS:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+Shelladmin@Shell-VM01:~$
+Shelladmin@Shell-VM01:~$ pwd
+/home/Shelladmin
+Shelladmin@Shell-VM01:~$ ls
+1  bcsample.sh  if.sh  index.html  lab1.sh  multiline.sh  readsample.sh  readwith  s1,s2,s3,s4  script.sh  siva.html  var1.sh
+Shelladmin@Shell-VM01:~$ pwd && ls
+/home/Shelladmin
+1  bcsample.sh  if.sh  index.html  lab1.sh  multiline.sh  readsample.sh  readwith  s1,s2,s3,s4  script.sh  siva.html  var1.sh
+Shelladmin@Shell-VM01:~$ date && ls
+Wed Oct 16 12:46:00 UTC 2024
+1  bcsample.sh  if.sh  index.html  lab1.sh  multiline.sh  readsample.sh  readwith  s1,s2,s3,s4  script.sh  siva.html  var1.sh
+Shelladmin@Shell-VM01:~$ which docker
+Shelladmin@Shell-VM01:~$ $?
+1: command not found
+Shelladmin@Shell-VM01:~$ pwd && which docker
+/home/Shelladmin
+Shelladmin@Shell-VM01:~$ which docker && pwd
+Shelladmin@Shell-VM01:~$ $?
+1: command not found
+
+CONTROL STATMENTS:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+if SATATEMENT::
+
+if it checks the if condition is true block of statement ni executes
+
+if it checks the if condition is false block of statement didnt executes
+
+
+CASE STATEMT::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+Shelladmin@Shell-VM01:~$ cat casesample.sh
+#! /bin/bash
+
+case $number in
+    1)
+        echo "You selected option 1: Displaying the date and time."
+        date
+        ;;
+    2)
+        echo "You selected option 2: Displaying the current working directory."
+        pwd
+        ;;
+    3)
+        echo "You selected option 3: Listing files in the current directory."
+        ls -l
+        ;;
+    4)
+        echo "You selected option 4: Displaying the current user."
+        whoami
+        ;;
+    *)
+        echo "Invalid option! Please enter a number between 1 and 4."
+        ;;
+esac
+Shelladmin@Shell-VM01:~$ vim casesample.sh
+Shelladmin@Shell-VM01:~$ sh casesample.sh
+Enter any number from 0-43
+You selected option 3: Listing files in the current directory.
+total 44
+-rw-rw-r-- 1 Shelladmin Shelladmin  41 Oct 15 10:25 1
+-rw-rw-r-- 1 Shelladmin Shelladmin 627 Oct 16 10:28 bcsample.sh
+-rw-rw-r-- 1 Shelladmin Shelladmin 586 Oct 17 10:50 casesample.sh
+-r---w---x 1 Shelladmin Shelladmin 499 Oct 16 13:28 if.sh
+-rw-rw-r-- 1 Shelladmin Shelladmin   0 Oct 11 10:51 index.html
+-rwxrwxr-x 1 Shelladmin Shelladmin 122 Oct 15 08:21 lab1.sh
+-rw-rw-r-- 1 Shelladmin Shelladmin  62 Oct 15 10:32 multiline.sh
+-rw-rw-r-- 1 Shelladmin Shelladmin  54 Oct 15 10:51 readsample.sh
+-rw-rw-r-- 1 Shelladmin Shelladmin 199 Oct 15 11:04 readwith
+-rw-rw-r-- 1 Shelladmin Shelladmin   0 Oct 15 08:23 s1,s2,s3,s4
+-rwxrwxr-x 1 Shelladmin Shelladmin 379 Oct 11 10:29 script.sh
+-rw-rw-r-- 1 Shelladmin Shelladmin 810 Oct 11 10:26 siva.html
+-rw-rw-r-- 1 Shelladmin Shelladmin  84 Oct 15 08:41 var1.sh
+Shelladmin@Shell-VM01:~$ sh casesample.sh
+Enter any number from 0-44
+You selected option 4: Displaying the current user.
+Shelladmin
+Shelladmin@Shell-VM01:~$ sh casesample.sh
+Enter any number from 0-41
+You selected option 1: Displaying the date and time.
+Thu Oct 17 10:51:26 UTC 2024
+Shelladmin@Shell-VM01:~$ sh casesample.sh
+Enter any number from 0-42
+You selected option 2: Displaying the current working directory.
+/home/Shelladmin
+Shelladmin@Shell-VM01:~$ sh casesample.sh
+Enter any number from 0-41 2 3 4
+Invalid option! Please enter a number between 1 and 4.
+
+
+Shelladmin@Shell-VM01:~$ cat casesample.sh
+#! /bin/bash/
+
+read -p "enter any number from 0-9" num
+
+case $num in
+        0)
+                echo "case0"
+                ;;
+        1)
+                echo "case1"
+                ;;
+        2)
+                echo "case2"
+                ;;
+
+        *)
+                echo "choose only 0-2"
+                ;;
+esac
+Shelladmin@Shell-VM01:~$ sh casesample.sh
+enter any number from 0-92
+case2
+Shelladmin@Shell-VM01:~$ sh casesample.sh
+enter any number from 0-96
+choose only 0-2
+Shelladmin@Shell-VM01:~$ sh casesample.sh
+enter any number from 0-91
+case1
+
+
+Shelladmin@Shell-VM01:~$ cat case01.sh
+#! /bin/bash/
+
+echo "enter a fruit name"
+read fruit
+
+case $fruit in
+   "apple")
+     echo "you choose apple";;
+   "banana")
+     echo "you choose banana";;
+   "orange")
+     echo "you choose orange";;
+   *) "thats not a fruit";;
+esac
+
+Shelladmin@Shell-VM01:~$ sh case01.sh
+enter a fruit name
+orange
+you choose orange
+Shelladmin@Shell-VM01:~$ sh case01.sh
+enter a fruit name
+mango
+case01.sh: 13: thats not a fruit: not found
+
+
+Shelladmin@Shell-VM01:~$ vim case02.sh
+Shelladmin@Shell-VM01:~$ cat case02.sh
+#! /bin/bash/
+
+echo "enter the word"
+read word
+
+case $word in
+ [0-9]*)
+  echo "you entered a number";;
+ [A-Za-z]*)
+  echo "you entered a word";;
+ *)
+  echo "you entered something else";;
+esac
+
+Shelladmin@Shell-VM01:~$ sh case02.sh
+enter the word
+9
+you entered a number
+Shelladmin@Shell-VM01:~$ sh case02.sh
+enter the word
+aki
+you entered a word
+Shelladmin@Shell-VM01:~$ sh case02.sh
+enter the word
+16ghygvb
+you entered a number
+
+Shelladmin@Shell-VM01:~$ cat case03.sh
+#! /bin/bash/
+
+echo "enter the word"
+read word
+
+case $word in
+ [0-9])
+  echo "you entered a number";;
+ [A-Za-z])
+  echo "you entered a word";;
+ *)
+  echo "you entered something else";;
+esac
+
+Shelladmin@Shell-VM01:~$ sh case03.sh
+enter the word
+456
+you entered something else
+Shelladmin@Shell-VM01:~$ sh case03.sh
+enter the word
+akiss
+you entered something else
+
+Shelladmin@Shell-VM01:~$ cat case04.sh
+#! /bin/bash/
+
+echo "Enter a nuber between 1 to 5"
+read number
+
+case $number in
+  [1-3])
+   echo "you choose 1-3 number";;
+  4)
+   echo "you choose number 4";;
+  5)
+   echo "you choose number 5";;
+  *)
+   echo "thats not a between 1 to 5";;
+esac
+Shelladmin@Shell-VM01:~$ sh case04.sh
+Enter a nuber between 1 to 5
+2
+you choose 1-3 number
+Shelladmin@Shell-VM01:~$ sh case04.sh
+Enter a nuber between 1 to 5
+4
+you choose number 4
+Shelladmin@Shell-VM01:~$ sh case04.sh
+Enter a nuber between 1 to 5
+5
+you choose number 5
+Shelladmin@Shell-VM01:~$ sh case04.sh
+Enter a nuber between 1 to 5
+9
+thats not a between 1 to 5
+
+
+===============================================================================================
+
+TEST STRING OPERATOR:::::::::::::::::::::::::::::::;;;
+
+
+Shelladmin@Shell-VM01:~$ cat testoperator01.sh
+#!/bin/bash
+
+str1="hello"
+str2="DevOps"
+
+# Add space between if and [ and ensure there is space around the "=="
+if [ "$str1" == "$str2" ]; then
+    echo "The strings are equal"
+else
+    echo "The strings are unequal"
+fi
+
+Shelladmin@Shell-VM01:~$ sh testoperator01.sh
+testoperator01.sh: 7: [: hello: unexpected operator
+The strings are unequal
+-------------------------------------------------------------------------------- 
+
+Shelladmin@Shell-VM01:~$ cat testoperator01.sh
+#!/bin/bash
+
+str1="hello"
+str2="DevOps"
+
+# Add space between if and [ and ensure there is space around the "="
+if [ "$str1" = "$str2" ]; then
+    echo "The strings are equal"
+else
+    echo "The strings are unequal"
+fi
+
+Shelladmin@Shell-VM01:~$ sh testoperator01.sh
+The strings are unequal
+----------------------------------------------------------------------------------
+Shelladmin@Shell-VM01:~$ cat testoperator01.sh
+#!/bin/bash
+
+str1="hello"
+str2="DevOps"
+
+# Add space between if and [ and ensure there is space around the "!="
+if [ "$str1" != "$str2" ]; then
+    echo "The strings are equal"
+else
+    echo "The strings are unequal"
+fi
+
+Shelladmin@Shell-VM01:~$ sh testoperator01.sh
+The strings are equal
+---------------------------------------------------------------------------------
+=================================================================================
+
+FILE TEST OPERATOR
+
+Shelladmin@Shell-VM01:~$ cat file01.sh
+#! /bin/bash/
+
+file="case04.sh"
+
+if [ -e "$file" ]; then
+        echo "File exists"
+fi
+
+if [ -r "$file" ]; then
+        echo "File is readble"
+fi
+
+if [ -w "$file" ]; then
+        echo "File is writable"
+fi
+
+if [ -x "$file" ]; then
+        echo "File is executable"
+fi
+
+if [ -s "$file" ]; then
+        echo "File size is non-zero"
+fi
+
+if [ -d "$file" ]; then
+        echo "File is a directory"
+fi
+
+if [ -f "$file" ]; then
+        echo "File is regular file"
+fi
+
+Shelladmin@Shell-VM01:~$ vim file01.sh
+Shelladmin@Shell-VM01:~$ sh file01.sh
+File exists
+File is readble
+File size is non-zero
+File is regular file
+Shelladmin@Shell-VM01:~$ vim file01.sh
+Shelladmin@Shell-VM01:~$ sh file01.sh
+File exists
+File is readble
+File is writable
+File size is non-zero
+File is regular file
+
+
+
+
+
+
+
 
 
 
